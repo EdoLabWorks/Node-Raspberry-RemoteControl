@@ -1,6 +1,6 @@
 {
   "name": "Node-Raspberry-RemoteControl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
   "start": "node app.js"
   },
@@ -8,7 +8,7 @@
     "array-gpio": ">=1.1.x",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "ip": "^1.1.5",
+    "ip": "^1.1.5"
   },
   "license": "MIT",
   "directories": {},
