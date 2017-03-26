@@ -1,0 +1,36 @@
+{
+  "name": "Node-Raspberry-RemoteControl",
+  "version": "1.0.0",
+  "scripts": {
+  "start": "node app.js"
+  },
+  "dependencies": {
+    "array-gpio": ">=1.1.x",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "ip": "^1.1.5",
+  },
+  "license": "MIT",
+  "directories": {},
+  "engines": {
+    "node": ">= 5.0.0"
+  },
+  "keywords": [
+    "gpio",
+    "pi",
+    "raspberry",
+    "raspberrypi",
+    "raspberry pi",
+    "raspberry pi 3",
+    "rpi",
+    "rpio",
+    "web control",
+    "remote control",
+    "raspberry remote control",
+    "onoff"
+  ],
+  "author": {
+    "name": "Ed Alegrid",
+    "email": "ealegrid@gmail.com"
+  }
+}

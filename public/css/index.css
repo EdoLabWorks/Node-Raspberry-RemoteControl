@@ -1,0 +1,32 @@
+/* quick styling for index.html */
+
+body{
+  font-family: 'Metrophobic', Arial, serif; font-weight: 300; font-size: 28px;
+}
+#status {
+  padding: 25px  10px  10px  22px;
+  margin: 10px 10px 10px 20px;
+  width: auto;
+  height: 100px;
+  font-size: 24px;
+}
+#toggleBtn{
+  padding: 10px  50px  10px  50px;
+  margin: 0px 10px 0px 10px;
+  width: 650px;
+  height: 120px;
+  font-size: 24px;
+}
+#badge{
+  margin: 0px 0px 0px 0px;
+  padding: 10px  10px  10px  10px;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+}
+#title,#footer{
+  font-size: 28px;
+}
+#state{
+  padding: 10px  10px  10px  30px;
+}
