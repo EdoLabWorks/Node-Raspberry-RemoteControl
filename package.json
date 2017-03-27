@@ -29,6 +29,10 @@
     "raspberry remote control",
     "onoff"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdoLabWorks/Node-Raspberry-RemoteControl.git"
+  },
   "author": {
     "name": "Ed Alegrid",
     "email": "ealegrid@gmail.com"
