@@ -4,6 +4,8 @@ A simple HTTP remote control project for Raspberry Pi 3 using array-gpio, expres
 
 Turn ON/OFF the actuators/peripherals connected to your Raspberry Pi 3 using your mobile device.
 
+![](https://github.com/EdoLabWorks/ximgs/blob/master/raspberry-remote1.png)
+
 Note:
  
 Works on node v5.0 LTS or v6.5 latest and above.
