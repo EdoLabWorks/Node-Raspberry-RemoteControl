@@ -32,11 +32,10 @@ else if (_cd == null  ) {
 }
 
 console.log('response data:', result);
-process.nextTick(function(){
+setTimeout(function(){
   let data = JSON.stringify(result);
   res.json({item: data.toString()});
-});
-
+},25);
 });
 
 module.exports = r;   
