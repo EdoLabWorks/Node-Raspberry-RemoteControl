@@ -29,5 +29,4 @@ const port = 3000;
 http.listen(port, ip, () => {
   console.log('\n*** start http server ***');
   console.log(`HttpServer started: http://${ip}:${port}`);
-  exports.ip = ip;
 });
