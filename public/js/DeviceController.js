@@ -14,16 +14,18 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   rpi.status = [];
  
   rpi.code = [{on: 'on0', off: 'off0'}, {on: 'on1', off: 'off1'}, {on: 'on2', off: 'off2'}, {on: 'on3', off: 'off3'}];         	
-  let on = [{color: '#e6b800', state: 'ON' }]; 
-  let off = [{color: 'red', state: 'OFF'}];
-  let lockon = [{color: '#848484' , state: 'Locked. Press to unlock the GUI.'}]; 
-  let lockoff = [{color: '#00cccc', state: 'Unlocked. Press to lock the GUI.'}];
+  var on = [{color: '#e6b800', state: 'ON' }]; 
+  var off = [{color: 'red', state: 'OFF'}];
+  var lockon = [{color: '#848484' , state: 'Locked. Press to unlock the GUI.'}]; 
+  var lockoff = [{color: '#00cccc', state: 'Unlocked. Press to lock the GUI.'}];
 	
   rpi.d1 =  off;
   rpi.d2 =  off;
   rpi.d3 =  off;
   rpi.d4 =  off;
   rpi.d5 =  lockoff;
+  
+  var btnF = false;
 
   /* toggle button function */
   function controlButton(x) {
@@ -74,26 +76,34 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   function btnOff(x){
     if (x === rpi.code[0].on || x === rpi.code[0].off){
       rpi.d1 = off;
-      rpi.show1 = true;
+      if(btnF){
+        rpi.show1 = true;
+       }
     }
     else if (x === rpi.code[1].on || x === rpi.code[1].off){
       rpi.d2= off;
-      rpi.show2 = true;
+      if(btnF){
+        rpi.show2 = true;
+      }
     }
     else if (x === rpi.code[2].on || x === rpi.code[2].off){
       rpi.d3= off;
-      rpi.show3 = true;
+      if(btnF){
+        rpi.show3 = true;
+      }
     }
     else if (x === rpi.code[3].on || x === rpi.code[3].off){
       rpi.d4= off;
-      rpi.show4 = true;
+      if(btnF){
+        rpi.show4 = true;
+      }
     }
   }
 			
   /* lock function */
-  let lockStatus = 'on';
-  let InitLockStatus = [{d: 'GUI is locked. Press lock button to unlock.'}];
-  let UnlockStatus = [{d: 'GUI is unlocked.'}]; 
+  var lockStatus = 'on';
+  var InitLockStatus = [{d: 'GUI is locked. Press lock button to unlock.'}];
+  var UnlockStatus = [{d: 'GUI is unlocked.'}]; 
  
   rpi.d5 = lockon;
   rpi.status = InitLockStatus; 
@@ -111,9 +121,8 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   }
   		
   /* send device function */
-  let payload = {};
-  let msg = {};
-  let bc = {};
+  var payload = {};
+  var msg = {};
   rpi.sd = function (x) {
     /* quick check for empty/null payload data */
     if (x == null || x == ''){
@@ -150,14 +159,14 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
         msg = JSON.parse((response.data.item).toString()); 
 
         /* btn color control */
-        bc =  msg[0].d;
+        var bc =  msg[0].d;
         
         /* debug output */
         //rpi.status = msg;
         //rpi.status = [{d: 'Send status - OK [' + msg[0].d + ']'}]; 
         //rpi.status = [{d: 'Send status - OK'}];
-
-        if(bc === payload.d) {
+        
+        if(bc && bc === payload.d) {
           for(let x in rpi.code){
             let v = parseInt(x) + 1;
             if (bc === rpi.code[x].on ){
@@ -194,20 +203,24 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   } /* sd */
 	
   function getBtn(){
+    btnF = true;
     lockStatus = 'off';
     setTimeout(function(){
     rpi.sd('off0');
     }, 0);
     setTimeout(function(){
     rpi.sd('off1');
-    }, 150);
+    }, 200);
     setTimeout(function(){
     rpi.sd('off2');
-    }, 300);
+    }, 350);
     setTimeout(function(){
     rpi.sd('off3');
-    lockStatus = 'on';
     }, 500);
+    setTimeout(function(){
+    lockStatus = 'on';
+    btnF = false;
+    }, 650);
   }
   getBtn();
 
