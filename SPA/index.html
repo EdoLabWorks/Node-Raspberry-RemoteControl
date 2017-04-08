@@ -25,19 +25,11 @@
      <a class="navbar-brand" id="title" href="#" >Raspberry Pi - Web Control Project</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-      <!--<li class="active"><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>-->
-      </ul>
     </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
  </nav>
-
 <hr/>
-
 <div class="row">
-
 <div class="col-lg-8">
 <div class="panel panel-default">
   <div id="status" class="panel-body"> 
@@ -53,9 +45,8 @@
   <div class="panel-body"> 
   <form role="form">
     <button id="toggleBtn" ng-repeat="x in rpi.d1" ng-style={background:'{{x.color}}'} class="btn-lg btn-info" ng-click="rpi.sd('on0')">
-<span contenteditable="true" >Output</span>  <span id="badge" class="badge">1</span>  <span  id="state" ng-repeat="x in rpi.d1">{{x.state}} </span>
+    Output <span id="badge" class="badge">1</span>  <span id="state" >{{x.state}} </span>
     </button>
-  <!--<span ng-repeat="x in rpi.d1">{{x.state}} </span>--> 
   </form>
   </div>
 </div>	
@@ -66,9 +57,8 @@
   <div class="panel-body"> 
   <form role="form">
   <button id="toggleBtn" ng-repeat="x in rpi.d2" ng-style={background:'{{x.color}}'} class="btn-lg btn-info" ng-click="rpi.sd('on1')">
-    Output <span id="badge" class="badge">2</span> <span  id="state" ng-repeat="x in rpi.d2"> {{x.state}} </span>
+    Output <span id="badge" class="badge">2</span> <span  id="state" > {{x.state}} </span>
     </button>
-  <!--<span ng-repeat="x in rpi.d2">{{x.state}} </span>--> 
   </form>
   </div>
 </div>	
@@ -79,9 +69,8 @@
   <div class="panel-body"> 
   <form role="form">
   <button id="toggleBtn" ng-repeat="x in rpi.d3" ng-style={background:'{{x.color}}'} class="btn-lg btn-info" ng-click="rpi.sd('on2')">
-    Output <span id="badge" class="badge">3</span> <span id="state" ng-repeat="x in rpi.d3"> {{x.state}} </span>
+    Output <span id="badge" class="badge">3</span> <span id="state" > {{x.state}} </span>
   </button>
-  <!--<span ng-repeat="x in rpi.d3">{{x.state}} </span>--> 
   </form>
   </div>
 </div>	
@@ -92,9 +81,8 @@
   <div class="panel-body"> 
   <form role="form">
   <button id="toggleBtn" ng-repeat="x in rpi.d4" ng-style={background:'{{x.color}}'} class="btn-lg btn-info" ng-click="rpi.sd('on3')">
-    Output <span id="badge" class="badge">4</span> <span id="state" ng-repeat="x in rpi.d4"> {{x.state}} </span>
+    Output <span id="badge" class="badge">4</span> <span id="state" > {{x.state}} </span>
   </button>
-  <!--<span ng-repeat="x in rpi.d4">{{x.state}} </span>--> 
   </form>
   </div>
 </div>	
@@ -107,9 +95,8 @@
   <div class="panel-body"> 
   <form role="form">
   <button id="toggleBtn" ng-repeat="x in rpi.d5" ng-style={background:'{{x.color}}'} class="btn-lg btn-info" ng-click="rpi.lock()">
-    <span id="state" ng-repeat="x in rpi.d5">{{x.state}} </span>
+    <span id="state" >{{x.state}} </span>
   </button>
-  <!--<span ng-repeat="x in rpi.d5"> {{x.state}} </span>-->
   </form>
   </div>
 </div>	
