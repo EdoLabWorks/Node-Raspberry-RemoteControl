@@ -1,5 +1,7 @@
-/* Author: Ed Alegrid 3/13/2017 */
+/* Ed Alegrid 3/13/2017 */
+
 'use strict';
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var Web = require('../lib/WebControl.js');
@@ -14,8 +16,8 @@ let _cd = item.d;
 console.log('\n**** HTTP (req, res) ****');
 console.log('request data: ', item);
 /*
-*  GPIO output control function
-*/
+ *  GPIO output control function
+ */
 let gpioData = Web.Control(_cd);
 
 if(gpioData){
@@ -32,10 +34,13 @@ else if (_cd == null  ) {
 }
 
 console.log('response data:', result);
+
+var data;
+
 setTimeout(function(){
-  let data = JSON.stringify(result);
+  data = JSON.stringify(result);
   res.json({item: data.toString()});
-},25);
+},50); 
 });
 
 module.exports = r;   
