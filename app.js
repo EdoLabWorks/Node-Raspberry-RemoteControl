@@ -1,4 +1,5 @@
-/* Author: Ed Alegrid 3/1/2017 */
+/* Ed Alegrid 3/1/2017 */
+
 'use strict';
 
 const express = require('express');
@@ -9,10 +10,10 @@ const device = require('./routes/device.js');
 const gpio = require('./lib/WebControl.js');
 
 /*
-*  Provide the GPIO pin no. of your output object (max. of 6 outputs).  
-*  (replace the default setup below using your actual pins)  
-*/
-gpio.setOutput(33,35,37,36); 
+ *  Provide the GPIO pins (physical pin numbering from board header) for your output objects (max. of 4 outputs).  
+ *  Replace the default pins below using your actual selected output pins.  
+ */
+gpio.setOutput(33, 35, 37, 36); 
 
 /* load web api routes */
 app.use('/device', device); 
