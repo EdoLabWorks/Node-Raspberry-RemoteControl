@@ -1,9 +1,11 @@
 'use strict';
+
 var device = angular.module('edo', []);
 device.controller('DeviceController', ['$scope', 'ControlService', function ($scope, ControlService) {
+
   /* using rpi object for raspberry pi */
   var rpi = {};
-
+  
   rpi.error = false;
   var errorMsg = 'Check server status on your Raspberry Pi.';
   rpi.show1 = false;
@@ -13,12 +15,13 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   
   rpi.status = [];
  
-  rpi.code = [{on: 'on0', off: 'off0'}, {on: 'on1', off: 'off1'}, {on: 'on2', off: 'off2'}, {on: 'on3', off: 'off3'}];         	
+  rpi.code = [{on: 'on0', off: 'off0', stat: 'stat0'}, {on: 'on1', off: 'off1', stat: 'stat1'}, {on: 'on2', off: 'off2', stat: 'stat2'}, {on: 'on3', off: 'off3', stat: 'stat3'}];         	
   var on = [{color: '#e6b800', state: 'ON' }]; 
   var off = [{color: 'red', state: 'OFF'}];
   var lockon = [{color: '#848484' , state: 'Locked. Press to unlock the GUI.'}]; 
   var lockoff = [{color: '#00cccc', state: 'Unlocked. Press to lock the GUI.'}];
-	
+ 
+  /* button off state during startup or browser refresh */
   rpi.d1 =  off;
   rpi.d2 =  off;
   rpi.d3 =  off;
@@ -31,71 +34,84 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
   function controlButton(x) {
     if (x === rpi.code[0].on){
       if (rpi.d1[0].state === 'OFF' && rpi.d5 !==  lockon) {	
-        x = rpi.code[0].on; //'on0';
+        x = rpi.code[0].on; 	//'on0';
         rpi.d1 = on;
       }
       else if (rpi.d5 !==  lockon) {	
-        x = rpi.code[0].off; //'off0';
+        x = rpi.code[0].off; 	//'off0';
         rpi.d1 = off;
       }
     }
     if (x === rpi.code[1].on){
       if (rpi.d2[0].state === 'OFF' && rpi.d5 !==  lockon) {	
-        x = rpi.code[1].on; // 'on1';
+        x = rpi.code[1].on; 	//'on1';
         rpi.d2 = on;
       }
       else if (rpi.d5 !==  lockon) {	
-        x = rpi.code[1].off; // 'off1';
+        x = rpi.code[1].off; 	//'off1';
         rpi.d2 = off;
       }
     }
     if (x === rpi.code[2].on){
       if (rpi.d3[0].state === 'OFF' && rpi.d5 !==  lockon) {	
-        x = rpi.code[2].on; // 'on2';
+        x = rpi.code[2].on; 	//'on2';
         rpi.d3 = on;
       }
       else if (rpi.d5 !==  lockon) {	
-        x = rpi.code[2].off; // 'off2';
+        x = rpi.code[2].off; 	//'off2';
         rpi.d3 = off;
       }
     }
     if (x === rpi.code[3].on){
       if (rpi.d4[0].state === 'OFF' && rpi.d5 !==  lockon) {	
-        x = rpi.code[3].on; // 'on3';
+        x = rpi.code[3].on; 	//'on3';
         rpi.d4 = on;
       }
       else if (rpi.d5 !==  lockon) {	
-        x = rpi.code[3].off; // 'off3';
+        x = rpi.code[3].off; 	//'off3';
         rpi.d4 = off;
       }
     }
     return x;
   }
 
-  /* disable button function (if not setup for remote operation) */ 
+  /* disable button if no outpin pin is configured for remote operation */ 
   function btnOff(x){
+
     if (x === rpi.code[0].on || x === rpi.code[0].off){
       rpi.d1 = off;
       if(btnF){
-        rpi.show1 = true;
+          rpi.show1 = true;
        }
+       else{
+	  rpi.show1 = false;
+      }
     }
     else if (x === rpi.code[1].on || x === rpi.code[1].off){
       rpi.d2= off;
       if(btnF){
-        rpi.show2 = true;
+          rpi.show2 = true;
+      }
+      else{
+	  rpi.show2 = false;
       }
     }
     else if (x === rpi.code[2].on || x === rpi.code[2].off){
       rpi.d3= off;
       if(btnF){
-        rpi.show3 = true;
+          rpi.show3 = true;
+      }
+      else{
+	  rpi.show3 = false;
       }
     }
     else if (x === rpi.code[3].on || x === rpi.code[3].off){
       rpi.d4= off;
       if(btnF){
-        rpi.show4 = true;
+          rpi.show4 = true;
+      }
+      else{
+	  rpi.show4 = false;
       }
     }
   }
@@ -119,11 +135,13 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
       rpi.d5 =  lockon;
     }
   }
-  		
+
   /* send device function */
   var payload = {};
   var msg = {};
+
   rpi.sd = function (x) {
+
     /* quick check for empty/null payload data */
     if (x == null || x == ''){
       rpi.status = [{d: 'blank data'}];
@@ -161,35 +179,65 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
         /* btn color control */
         var bc =  msg[0].d;
         
-        /* debug output */
-        //rpi.status = msg;
-        //rpi.status = [{d: 'Send status - OK [' + msg[0].d + ']'}]; 
-        //rpi.status = [{d: 'Send status - OK'}];
-        
-        if(bc && bc === payload.d) {
+	/* remote control is allowed if payload data is the same with response data */
+        if(bc && bc === payload.d ) {
           for(let x in rpi.code){
             let v = parseInt(x) + 1;
             if (bc === rpi.code[x].on ){
               rpi.status = [{d: 'Remote output ' + v + ' is ON.'}];
+
+              if(bc === 'on0'){
+		  rpi.d1 = on;
+	      }
+              if(bc === 'on1'){
+		  rpi.d2 = on;
+              }
+              if(bc === 'on2'){
+		  rpi.d3 = on;
+              }
+              if(bc === 'on3'){
+		  rpi.d4 = on;
+              }
               return;
             }
             else if (bc === rpi.code[x].off){
               rpi.status = [{d: 'Remote output ' + v + ' is OFF.'}];
               return;
             }
-            /*else if (bc === 'GUI is locked! Press unlock button to unlock.' || bc === 'locked') { 
+            else if (bc === rpi.code[x].stat){
               rpi.status = InitLockStatus; 
+              btnOff(payload.d); 
               return;
-            }*/
+            }
+            else if (bc === 'GUI is locked! Press unlock button to unlock.' || bc === 'locked') { 
+              rpi.status = InitLockStatus; 
+              btnOff(payload.d); 
+              return;
+            }
           }
         }
+	
         else if (rpi.d5 === lockon) { 
           rpi.status = InitLockStatus; 
           btnOff(payload.d);  
+      
+          if(bc === 'on0'){
+	      rpi.d1 = on;
+          }
+          if(bc === 'on1'){
+	      rpi.d2 = on;
+          }
+          if(bc === 'on2'){
+	      rpi.d3 = on;
+          }
+          if(bc === 'on3'){
+	      rpi.d4 = on;
+          }
+
           return;
         }
         else {
-          rpi.status = [{d: 'Button is not setup for remote control.'}];
+          rpi.status = [{d: 'Button is not setup for remote control. There is no output pin configured with this button.'}];
           btnOff(payload.d);  
           return;  
         } 
@@ -201,28 +249,30 @@ device.controller('DeviceController', ['$scope', 'ControlService', function ($sc
       }); /* control service */
     } /* else */
   } /* sd */
-	
-  function getBtn(){
+
+  /* get status of output pins */
+  function getBtnStatus(){
     btnF = true;
     lockStatus = 'off';
+ 
+    rpi.sd('stat0');
     setTimeout(function(){
-    rpi.sd('off0');
-    }, 0);
+    	rpi.sd('stat1');
+    }, 100); //use 200 for high traffic network
     setTimeout(function(){
-    rpi.sd('off1');
-    }, 200);
+    	rpi.sd('stat2');
+    }, 200); //use 400 for high traffic network
     setTimeout(function(){
-    rpi.sd('off2');
-    }, 350);
+    	rpi.sd('stat3');
+    }, 300); //use 600 for high traffic network
+
     setTimeout(function(){
-    rpi.sd('off3');
-    }, 500);
-    setTimeout(function(){
-    lockStatus = 'on';
-    btnF = false;
-    }, 650);
+    	lockStatus = 'on';
+    	btnF = false;
+    }, 400); //use 800 for high traffic network
   }
-  getBtn();
+
+  getBtnStatus();
 
 $scope.rpi = rpi;
 }]);
@@ -230,6 +280,6 @@ $scope.rpi = rpi;
 /* http service module */
 device.factory('ControlService', ['$http', function ($http) {
   const url = '/device';
-  return { sd: function (data) { return $http.post(url + '/data', data); }, 
+      return { sd: function (data) { return $http.post(url + '/data', data); }, 
   }
 }]); 
