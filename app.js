@@ -1,7 +1,6 @@
 /* Ed Alegrid 3/1/2017 */
 
 'use strict';
-
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
