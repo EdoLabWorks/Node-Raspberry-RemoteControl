@@ -16,7 +16,7 @@ Using the GPIO physical pin number, choose the pins you want to use as outputs.
 
 Configure the pins in the app.js file as shown below.
 
-For this project, you only need to provide the output pins you will use.
+For this project, you only need to provide the output pins (physical pin number on the header board) you will use.
 
 ~~~~
 gpio.setOutput(pin1, pin2 ... pin4); // max. 4 outputs
@@ -29,9 +29,14 @@ gpio.setOutput(pin1, pin2 ... pin4); // max. 4 outputs
 
 ### Installation 
 
-Git clone or download the application from your Raspberry Pi computer.
-
-In the root folder, install all dependencies.
+Git clone or download the application in your Raspberry Pi.
+~~~~
+$ git clone https://github.com/EdoLabWorks/Node-Raspberry-RemoteControl
+~~~~
+~~~~
+$ cd Node-Raspberry-RemoteControl
+~~~~
+Install all dependencies.
 ~~~~
 $ npm install
 ~~~~
